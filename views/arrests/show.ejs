@@ -1,0 +1,24 @@
+<%- include('../layouts/header', { title: 'تفاصيل سجل التوقيف', pageTitle: 'السجلات الأساسية' }) %>
+
+<div class="max-w-4xl mx-auto space-y-6" dir="rtl">
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">سجل توقيف #<%= String(arrest.id).padStart(4, '0') %></h1>
+            <p class="text-sm text-slate-500 mt-1"><%= arrest.personalData?.name || '-' %></p>
+        </div>
+        <a href="/system/arrests" class="px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-bold">عودة للقائمة</a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">اسم الموقوف</span><div class="text-sm font-bold"><%= arrest.personalData?.name || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">الحالة</span><div><%- include('../partials/security-badge', { level: arrest.status === 'مفرج عنه' ? 'resolved' : 'warning', label: arrest.status }) %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">نوع القضية</span><div class="text-sm font-bold"><%= arrest.caseType?.name || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">جهة التوقيف</span><div class="text-sm font-bold"><%= arrest.arrestingAuthority?.name || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">تاريخ التوقيف</span><div class="text-sm font-bold"><%= arrest.arrest_date %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">مكان التوقيف</span><div class="text-sm font-bold"><%= arrest.arrest_location || arrest.location || '-' %></div></div>
+        <div class="md:col-span-2"><span class="block text-xs font-bold text-slate-400 mb-1">تفاصيل القضية</span><div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 text-sm"><%= arrest.case_details || '-' %></div></div>
+        <div class="md:col-span-2"><span class="block text-xs font-bold text-slate-400 mb-1">المضبوطات</span><div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 text-sm"><%= arrest.seized_items || '-' %></div></div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

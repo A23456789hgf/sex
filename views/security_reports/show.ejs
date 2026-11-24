@@ -1,0 +1,23 @@
+<%- include('../layouts/header', { title: 'تفاصيل البلاغ الأمني', pageTitle: 'السجلات الأساسية' }) %>
+
+<div class="space-y-6 max-w-4xl mx-auto" dir="rtl">
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="font-display font-bold text-2xl text-slate-900 dark:text-white">بلاغ أمني #<%= String(report.id).padStart(4, '0') %></h1>
+            <p class="text-sm text-slate-500 mt-1"><%= report.report_topic %></p>
+        </div>
+        <a href="/system/security-reports" class="px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-bold">عودة للقائمة</a>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">الشخص المعني</span><div class="text-sm font-bold"><%= report.full_name %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">نوع البلاغ</span><div><%- include('../partials/security-badge', { level: 'warning', label: report.report_type }) %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">تاريخ البلاغ</span><div class="text-sm font-bold"><%= report.report_date %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">الجهة المبلغة</span><div class="text-sm font-bold"><%= report.reporting_entity || report.internalEntity?.name || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">المنطقة</span><div class="text-sm font-bold"><%= report.area || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">التصنيف / الحالة</span><div class="text-sm font-bold"><%= report.classification || '-' %></div></div>
+        <div class="md:col-span-2"><span class="block text-xs font-bold text-slate-400 mb-1">التفاصيل والملاحظات</span><div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 text-sm"><%= report.notes || '-' %></div></div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

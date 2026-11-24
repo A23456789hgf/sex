@@ -1,0 +1,24 @@
+<%- include('../layouts/header', { title: 'تفاصيل المشتبه به', pageTitle: 'السجلات الأساسية' }) %>
+
+<div class="space-y-6 max-w-4xl mx-auto" dir="rtl">
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="font-display font-bold text-2xl text-slate-900 dark:text-white">ملف اشتباه <%= suspect.suspect_number %></h1>
+            <p class="text-sm text-slate-500 mt-1"><%= suspect.personalData?.name || '-' %></p>
+        </div>
+        <a href="/system/suspicious" class="px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm font-bold">عودة للقائمة</a>
+    </div>
+
+    <% const lvl = suspect.status === 'حرج' ? 'critical' : suspect.status === 'تحذير' ? 'warning' : 'resolved'; %>
+    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">اسم المشتبه به</span><div class="text-sm font-bold"><%= suspect.personalData?.name || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">مستوى الخطورة</span><div><%- include('../partials/security-badge', { level: lvl, label: suspect.status }) %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">نوع الاشتباه</span><div class="text-sm font-bold"><%= suspect.suspicion_type %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">تاريخ الاشتباه</span><div class="text-sm font-bold"><%= suspect.suspicion_date %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">الموقع</span><div class="text-sm font-bold"><%= suspect.suspicion_location || '-' %></div></div>
+        <div><span class="block text-xs font-bold text-slate-400 mb-1">مصدر المعلومات</span><div class="text-sm font-bold"><%= suspect.information_source || '-' %></div></div>
+        <div class="md:col-span-2"><span class="block text-xs font-bold text-slate-400 mb-1">التفاصيل</span><div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 text-sm"><%= suspect.suspicion_details || '-' %></div></div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

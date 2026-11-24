@@ -1,0 +1,87 @@
+/* --- تعريف المتغيرات المحسنة --- */
+:root {
+    /* ألوان الوضع النهاري */
+    --day-primary: #2563EB;
+    --day-secondary: #10B981;
+    --day-accent: #EF4444;
+    --day-bg: #FFFFFF;
+    --day-bg-secondary: #F1F5F9;
+    --day-text: #0F172A;
+    --day-text-secondary: #475569;
+    --day-border: #CBD5E1;
+    --day-input-bg: #F8FAFC;
+    --day-input-text: #0F172A;
+    --day-label: #0F172A;
+
+    /* ألوان الوضع الليلي */
+    --night-primary: #3B82F6;
+    --night-secondary: #34D399;
+    --night-accent: #F87171;
+    --night-bg: #0F172A;
+    --night-bg-secondary: #1E293B;
+    --night-text: #F1F5F9;
+    --night-text-secondary: #94A3B8;
+    --night-border: #334155;
+    --night-input-bg: #1E293B;
+    --night-input-text: #F1F5F9;
+    --night-label: #E2E8F0;
+
+    /* قيم افتراضية (وضع نهاري) تُطبَّق دائماً */
+    --primary: var(--day-primary);
+    --secondary: var(--day-secondary);
+    --accent: var(--day-accent);
+    --bg: var(--day-bg);
+    --bg-secondary: var(--day-bg-secondary);
+    --text: var(--day-text);
+    --text-secondary: var(--day-text-secondary);
+    --border: var(--day-border);
+    --input-bg: var(--day-input-bg);
+    --input-text: var(--day-input-text);
+    --label-color: var(--day-label);
+}
+
+/* تطبيق الثيمات على body */
+body[data-theme="day"] {
+    --primary: var(--day-primary);
+    --secondary: var(--day-secondary);
+    --accent: var(--day-accent);
+    --bg: var(--day-bg);
+    --bg-secondary: var(--day-bg-secondary);
+    --text: var(--day-text);
+    --text-secondary: var(--day-text-secondary);
+    --border: var(--day-border);
+    --input-bg: var(--day-input-bg);
+    --input-text: var(--day-input-text);
+    --label-color: var(--day-label);
+}
+
+body[data-theme="night"] {
+    --primary: var(--night-primary);
+    --secondary: var(--night-secondary);
+    --accent: var(--night-accent);
+    --bg: var(--night-bg);
+    --bg-secondary: var(--night-bg-secondary);
+    --text: var(--night-text);
+    --text-secondary: var(--night-text-secondary);
+    --border: var(--night-border);
+    --input-bg: var(--night-input-bg);
+    --input-text: var(--night-input-text);
+    --label-color: var(--night-label);
+}
+
+/* دعم التفضيل التلقائي للنظام */
+@media (prefers-color-scheme: dark) {
+    body:not([data-theme="day"]) {
+        --primary: var(--night-primary);
+        --secondary: var(--night-secondary);
+        --accent: var(--night-accent);
+        --bg: var(--night-bg);
+        --bg-secondary: var(--night-bg-secondary);
+        --text: var(--night-text);
+        --text-secondary: var(--night-text-secondary);
+        --border: var(--night-border);
+        --input-bg: var(--night-input-bg);
+        --input-text: var(--night-input-text);
+        --label-color: var(--night-label);
+    }
+}

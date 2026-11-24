@@ -1,0 +1,81 @@
+<%- include('../layouts/header', { title: 'تعديل البيانات الشخصية', pageTitle: 'السجلات الأساسية' }) %>
+
+<div class="space-y-6 max-w-6xl mx-auto" dir="rtl">
+    <nav class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2 print:hidden">
+        <a href="/dashboard" class="hover:text-brand-600 transition-colors">الرئيسية</a>
+        <span>/</span>
+        <a href="/system/personal-data" class="hover:text-brand-600 transition-colors">إدارة البيانات الشخصية</a>
+        <span>/</span>
+        <span class="text-slate-900 dark:text-white font-semibold">تعديل: <%= record.name %></span>
+    </nav>
+
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 print:hidden">
+        <h1 class="font-display font-bold text-2xl text-slate-900 dark:text-white m-0">تعديل السجل الشخصي</h1>
+        <a href="/system/personal-data/<%= record.id %>" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl hover:bg-slate-50 shadow-sm">
+            <i class="fas fa-arrow-right"></i><span>عودة للملف</span>
+        </a>
+    </div>
+
+    <form action="/system/personal-data/<%= record.id %>?_method=PUT" method="POST" class="space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3 bg-slate-50/50 dark:bg-slate-800/30">
+                <div class="w-2 h-5 bg-brand-600 rounded-full"></div>
+                <h2 class="font-display font-bold text-base text-slate-900 dark:text-white m-0">المعلومات المدنية والشخصية</h2>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الاسم الكامل رباعياً <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" required value="<%= record.name %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الرقم القومي (الهوية)</label>
+                    <input type="text" name="national_id_number" value="<%= record.national_id_number || '' %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الاسم الجهادي</label>
+                    <input type="text" name="jihadi_name" value="<%= record.jihadi_name || '' %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الرقم العسكري</label>
+                    <input type="text" name="military_number" value="<%= record.military_number || '' %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">تاريخ الميلاد</label>
+                    <input type="date" name="date_of_birth_gregorian" value="<%= record.date_of_birth_gregorian || '' %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">رقم الهاتف</label>
+                    <input type="text" name="phone_1" value="<%= record.phone_1 || '' %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">فصيلة الدم</label>
+                    <select name="blood_type_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر الفصيلة...</option>
+                        <% for (const item of lookups.bloodTypes) { %><option value="<%= item.id %>" <%= record.blood_type_id == item.id ? 'selected' : '' %>><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الرتبة العسكرية</label>
+                    <select name="rank_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر الرتبة...</option>
+                        <% for (const item of lookups.ranks) { %><option value="<%= item.id %>" <%= record.rank_id == item.id ? 'selected' : '' %>><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">عنوان السكن</label>
+                    <input type="text" name="current_address" value="<%= record.current_address || '' %>" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">ملاحظات</label>
+                    <textarea name="notes" rows="3" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none"><%= record.notes || '' %></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center justify-end gap-3">
+            <a href="/system/personal-data/<%= record.id %>" class="px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold text-sm">إلغاء</a>
+            <button type="submit" class="px-8 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-sm cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ التعديلات</button>
+        </div>
+    </form>
+</div>
+
+<%- include('../layouts/footer') %>

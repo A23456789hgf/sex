@@ -1,0 +1,378 @@
+@import "tailwindcss";
+@source "../../views";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ═══════════════════════════════════════════════════
+   §1. TAILWIND V4 THEME CONFIGURATION (SOURCE: tem)
+   ═══════════════════════════════════════════════════ */
+@theme {
+  --font-sans: "Cairo", system-ui, sans-serif;
+  --font-display: "Cairo", sans-serif;
+  
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e0e7ff;
+  --color-brand-500: #6366f1;
+  --color-brand-600: #4f46e5;
+  --color-brand-700: #4338ca;
+}
+
+/* ═══════════════════════════════════════════════════
+   §2. DESIGN TOKENS & CSS VARIABLES (CENTRAL THEME)
+   ═══════════════════════════════════════════════════ */
+:root {
+  --color-brand-primary: #4f46e5;
+  --color-brand-primary-hover: #4338ca;
+  --color-brand-soft-bg: #eef2ff;
+  --color-brand-soft-text: #4338ca;
+
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-subtle: #f1f5f9;
+  --bg-input: #f8fafc;
+  --border-color: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+}
+
+.dark {
+  --color-brand-primary: #6366f1;
+  --color-brand-primary-hover: #4f46e5;
+  --color-brand-soft-bg: rgba(99, 102, 241, 0.12);
+  --color-brand-soft-text: #818cf8;
+
+  --bg-page: #020617;
+  --bg-surface: #0f172a;
+  --bg-surface-subtle: #1e293b;
+  --bg-input: #020617;
+  --border-color: #1e293b;
+  --border-subtle: #334155;
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+}
+
+/* ═══════════════════════════════════════════════════
+   §3. BASE STYLES & RESET
+   ═══════════════════════════════════════════════════ */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    font-family: "Cairo", sans-serif;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: "Cairo", sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: "Cairo", sans-serif;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+  }
+
+  a {
+    color: var(--color-brand-primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--color-brand-primary-hover);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   §4. BOOTSTRAP OVERRIDE & COMPATIBILITY LAYER
+   ═══════════════════════════════════════════════════ */
+/* Ensure bootstrap doesn't override dark mode or modern styles */
+.card, .table, .form-control, .form-select, .btn, .dropdown-menu, .modal-content {
+  font-family: "Cairo", sans-serif !important;
+}
+
+/* Bootstrap Dropdown & Modal Display Rules */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  z-index: 1000;
+}
+
+.dropdown-menu.hidden {
+  display: none !important;
+}
+
+.dropdown-menu.show, .dropdown-menu:not(.hidden) {
+  display: block;
+}
+
+.dropdown-menu-end {
+  left: auto;
+  right: 0;
+}
+
+.modal {
+  display: none;
+}
+
+.modal.show {
+  display: block !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   §5. SCROLLBAR STYLING
+   ═══════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ═══════════════════════════════════════════════════
+   §6. SELECT2 & PLUGINS DARK MODE COMPATIBILITY
+   ═══════════════════════════════════════════════════ */
+.select2-container--default .select2-selection--single {
+  height: 42px !important;
+  border-radius: 0.75rem !important;
+  border: 1px solid #e2e8f0 !important;
+  background-color: #f8fafc !important;
+  display: flex !important;
+  align-items: center !important;
+  font-size: 0.875rem !important;
+  font-family: "Cairo", sans-serif !important;
+  transition: all 0.2s ease !important;
+}
+
+.dark .select2-container--default .select2-selection--single {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+.select2-container--default.select2-container--open .select2-selection--single,
+.select2-container--default .select2-selection--single:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+  outline: none !important;
+}
+
+.dark .select2-container--default.select2-container--open .select2-selection--single,
+.dark .select2-container--default .select2-selection--single:focus {
+  border-color: #6366f1 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #0f172a !important;
+  line-height: 40px !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #f8fafc !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #94a3b8 !important;
+}
+
+.dark .select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #64748b !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 40px !important;
+  left: 8px !important;
+  right: auto !important;
+}
+
+.dark .select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border-color: #94a3b8 transparent transparent transparent !important;
+}
+
+.dark .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+  border-color: transparent transparent #94a3b8 transparent !important;
+}
+
+.select2-dropdown {
+  border-radius: 0.75rem !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+  font-family: "Cairo", sans-serif !important;
+  z-index: 9999 !important;
+  background-color: #ffffff !important;
+  overflow: hidden !important;
+}
+
+.dark .select2-dropdown {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.select2-search--dropdown {
+  padding: 8px !important;
+}
+
+.select2-search--dropdown .select2-search__field {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0.5rem !important;
+  padding: 6px 10px !important;
+  font-family: "Cairo", sans-serif !important;
+  font-size: 0.8125rem !important;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  outline: none !important;
+}
+
+.dark .select2-search--dropdown .select2-search__field {
+  background-color: #020617 !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+.select2-results__option {
+  padding: 8px 12px !important;
+  font-size: 0.875rem !important;
+  color: #334155 !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.dark .select2-results__option {
+  color: #cbd5e1 !important;
+}
+
+.select2-results__option--highlighted[aria-selected] {
+  background-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+.select2-results__option[aria-selected="true"] {
+  background-color: #eef2ff !important;
+  color: #4f46e5 !important;
+  font-weight: 600 !important;
+}
+
+.dark .select2-results__option[aria-selected="true"] {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+  color: #818cf8 !important;
+}
+
+/* Flatpickr Dark Mode Styling */
+.dark .flatpickr-calendar {
+  background: #0f172a !important;
+  border-color: #1e293b !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  color: #f8fafc !important;
+}
+
+.dark .flatpickr-months,
+.dark .flatpickr-month,
+.dark .flatpickr-current-month,
+.dark .flatpickr-monthDropdown-months,
+.dark .numInputWrapper span {
+  color: #f8fafc !important;
+  fill: #f8fafc !important;
+}
+
+.dark .flatpickr-weekdays,
+.dark span.flatpickr-weekday {
+  background: #0f172a !important;
+  color: #94a3b8 !important;
+}
+
+.dark .flatpickr-day {
+  color: #cbd5e1 !important;
+}
+
+.dark .flatpickr-day:hover,
+.dark .flatpickr-day:focus {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.dark .flatpickr-day.today {
+  border-color: #6366f1 !important;
+}
+
+.dark .flatpickr-day.selected {
+  background: #6366f1 !important;
+  border-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   §7. PRINT STYLES (SOURCE: tem)
+   ═══════════════════════════════════════════════════ */
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+  
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .overflow-hidden, .overflow-y-auto, .overflow-x-auto, .overflow-x-hidden {
+    overflow: visible !important;
+  }
+
+  table, img, svg, .break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}

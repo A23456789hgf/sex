@@ -1,0 +1,27 @@
+<%
+  const variants = {
+    critical: 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-100 dark:border-red-500/20',
+    danger:   'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-100 dark:border-red-500/20',
+    warning:  'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-100 dark:border-amber-500/20',
+    resolved: 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20',
+    success:  'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-100 dark:border-emerald-500/20',
+    info:     'bg-brand-50 dark:bg-brand-500/10 text-brand-700 dark:text-brand-400 border-brand-100 dark:border-brand-500/20',
+    neutral:  'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+  };
+  const icons = {
+    critical: 'fas fa-exclamation-circle',
+    danger:   'fas fa-exclamation-circle',
+    warning:  'fas fa-exclamation-triangle',
+    resolved: 'fas fa-check-circle',
+    success:  'fas fa-check-circle',
+    info:     'fas fa-info-circle',
+    neutral:  'fas fa-shield-alt',
+  };
+  const lvl = typeof level !== 'undefined' ? level : 'neutral';
+  const cls = variants[lvl] || variants.neutral;
+  const icn = icons[lvl] || icons.neutral;
+%>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-2xl text-xs font-bold transition-colors border <%= cls %>">
+    <i class="<%= icn %> text-xs shrink-0"></i>
+    <span class="whitespace-nowrap"><%= label %></span>
+</span>

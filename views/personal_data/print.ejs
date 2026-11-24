@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير السجل الأساسي - <%= personalData.name || 'منتسب' %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/vendor/fontawesome/all.min.css">
+    <style>
+        @page { size: A4 portrait; margin: 10mm 12mm; }
+        *, *::before, *::after { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        body { font-family: 'Cairo', Tahoma, sans-serif; direction: rtl; background: #e2e8f0; color: #0f172a; margin: 0; padding: 20px 0; line-height: 1.45; font-size: 11pt; }
+        .print-container { width: 100%; max-width: 950px; margin: 0 auto 30px auto; position: relative; background: #ffffff; padding: 28px 32px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border-radius: 8px; overflow: hidden; }
+        .official-header { display: grid; grid-template-columns: 1.2fr 1.6fr 1.2fr; align-items: center; border-bottom: 2.5px solid #0f2942; padding-bottom: 12px; margin-bottom: 14px; position: relative; }
+        .official-header::after { content: ''; position: absolute; bottom: -2.5px; right: 0; width: 38%; height: 2.5px; background-color: #b91c1c; }
+        .header-right { text-align: right; padding-left: 15px; border-left: 1px dashed #cbd5e1; }
+        .header-center { text-align: center; padding: 0 10px; }
+        .header-left { text-align: left; padding-right: 15px; border-right: 1px dashed #cbd5e1; display: flex; justify-content: flex-end; }
+        .republic-name { font-size: 15px; font-weight: 800; color: #0f2942; margin: 0; }
+        .ministry-title { font-size: 13px; font-weight: 700; color: #334155; margin: 2px 0; }
+        .dept-title { font-size: 11px; font-weight: 600; color: #64748b; margin: 0; }
+        .national-logo { max-width: 65px; max-height: 52px; object-fit: contain; display: block; margin: 0 auto 4px; }
+        .report-main-title { font-size: 18px; font-weight: 900; color: #0f2942; margin: 2px 0; }
+        .report-sub-code { display: inline-block; font-size: 10px; color: #64748b; font-weight: 600; background: #f1f5f9; padding: 2px 8px; border-radius: 4px; border: 1px solid #e2e8f0; }
+        .meta-verification-card { display: inline-flex; flex-direction: column; background: #f8fafc; border: 1.5px solid #cbd5e1; padding: 6px 10px; border-radius: 6px; text-align: right; font-size: 10.5px; width: 100%; max-width: 200px; }
+        .meta-row { display: flex; justify-content: space-between; margin-bottom: 3px; color: #334155; }
+        .grid-profile-row { display: grid; grid-template-columns: 1fr 190px; gap: 12px; margin-bottom: 12px; align-items: stretch; }
+        .grid-two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .profile-card { background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 12px 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .photo-frame { width: 120px; height: 140px; margin: 0 auto 8px; border: 2px solid #0f2942; border-radius: 6px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; }
+        .profile-rank-tag { display: inline-block; font-size: 11px; font-weight: 800; color: #b91c1c; background: #fef2f2; padding: 2px 10px; border-radius: 12px; border: 1px solid #fecaca; margin-top: 4px; }
+        .jihadi-name-pill { background: #e2e8f0; color: #1e293b; font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-top: 4px; }
+        .section-card { background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+        .section-header { background: #f0f4f8; padding: 7px 12px; border-bottom: 1.5px solid #cbd5e1; display: flex; align-items: center; justify-content: space-between; }
+        .section-header-title { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; color: #0f2942; }
+        .section-header-title i { color: #b91c1c; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th, td { padding: 7px 10px; border-bottom: 1px solid #e2e8f0; text-align: right; }
+        th { background-color: #f8fafc; color: #475569; font-weight: 700; border-left: 1px solid #e2e8f0; white-space: nowrap; }
+        .blood-badge { display: inline-block; background: #fee2e2; color: #b91c1c; padding: 1px 8px; border-radius: 4px; font-weight: 800; border: 1px solid #fca5a5; font-size: 11px; }
+        .signatures-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+        .signature-box { border: 1px dashed #cbd5e1; border-radius: 6px; padding: 10px; text-align: center; font-size: 10.5px; }
+        .sig-role { font-weight: 800; color: #0f2942; margin-bottom: 10px; }
+        .report-footer { margin-top: 14px; padding-top: 8px; border-top: 1.5px solid #cbd5e1; display: flex; justify-content: space-between; font-size: 9.5px; color: #64748b; }
+        .watermark-layer { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-32deg); font-size: 64pt; font-weight: 900; color: rgba(15, 23, 42, 0.035); white-space: nowrap; pointer-events: none; }
+        .controls-wrapper { display: flex; justify-content: center; gap: 12px; max-width: 950px; margin: 0 auto 20px auto; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #ffffff !important; padding: 0 !important; }
+            .print-container { max-width: 100% !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls-wrapper no-print">
+        <button onclick="window.print()" style="background: #0f2942; color: #fff; border: none; padding: 10px 24px; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+            <i class="fas fa-print"></i> طباعة المستند الآن
+        </button>
+        <a href="/system/personal-data/<%= personalData.id %>" style="background: #ffffff; color: #334155; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: bold; text-decoration: none;">عودة للملف</a>
+    </div>
+
+    <div class="print-container">
+        <div class="watermark-layer">وثيقة رسمية معتمدة</div>
+        <header class="official-header">
+            <div class="header-right">
+                <h3 class="republic-name">الجمهورية اليمنية</h3>
+                <h4 class="ministry-title">التعبئة العامة</h4>
+                <p class="dept-title">وحدة نظم وتكنولوجيا المعلومات</p>
+            </div>
+            <div class="header-center">
+                <img src="/images/logo1.png" alt="شعار" class="national-logo">
+                <h2 class="report-main-title">تقرير السجل الأساسي للمنتسب</h2>
+                <span class="report-sub-code">وثيقة قيد وسجل بيانات شخصية • معتمدة رقمياً</span>
+            </div>
+            <div class="header-left">
+                <div class="meta-verification-card">
+                    <div class="meta-row"><span>الرقم المرجعي:</span><strong>#<%= String(personalData.id).padStart(6, '0') %></strong></div>
+                    <div class="meta-row"><span>تاريخ الإصدار:</span><span><%= new Date().toISOString().slice(0, 10) %></span></div>
+                </div>
+            </div>
+        </header>
+
+        <section class="grid-profile-row">
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-header-title"><i class="fas fa-id-card"></i><span>البيانات التعريفية الأساسية</span></div>
+                </div>
+                <table>
+                    <tbody>
+                        <tr><th>الاسم الكامل</th><td colspan="3" style="font-size: 13px; font-weight: 800;"><%= personalData.name %></td></tr>
+                        <tr><th>الرقم الوطني</th><td style="font-family: monospace;"><%= personalData.national_id_number || '-' %></td><th>الرقم العسكري</th><td style="font-family: monospace; color: #b91c1c; font-weight: 800;"><%= personalData.military_number || '-' %></td></tr>
+                        <tr><th>تاريخ الميلاد (ميلادي)</th><td><%= personalData.date_of_birth_gregorian || '-' %></td><th>تاريخ الميلاد (هجري)</th><td><%= personalData.date_of_birth_hijri || '-' %></td></tr>
+                        <tr><th>الجنسية</th><td>يمني</td><th>الديانة</th><td>مسلم</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="profile-card">
+                <div class="photo-frame"><i class="fas fa-user" style="color: #94a3b8; font-size: 42px;"></i></div>
+                <div style="font-weight: 800; font-size: 12px;"><%= (personalData.name || '').split(' ')[0] %></div>
+                <div class="profile-rank-tag"><%= personalData.rank || 'غير محدد' %></div>
+                <% if (personalData.jihadi_name) { %><div class="jihadi-name-pill"><%= personalData.jihadi_name %></div><% } %>
+            </div>
+        </section>
+
+        <section class="grid-two-columns">
+            <div class="section-card">
+                <div class="section-header"><div class="section-header-title"><i class="fas fa-map-marker-alt"></i><span>بيانات السكن والاتصال</span></div></div>
+                <table>
+                    <tbody>
+                        <tr><th>المحافظة</th><td><%= personalData.governorate?.name || '-' %></td></tr>
+                        <tr><th>المديرية</th><td><%= personalData.directorate?.name || '-' %></td></tr>
+                        <tr><th>رقم الهاتف</th><td dir="ltr" style="text-align: right;"><%= personalData.phone_1 || '-' %></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="section-card">
+                <div class="section-header"><div class="section-header-title"><i class="fas fa-file-medical"></i><span>البيانات الطبية والتجنيد</span></div></div>
+                <table>
+                    <tbody>
+                        <tr><th>فصيلة الدم</th><td><span class="blood-badge"><%= personalData.blood_type || '-' %></span></td></tr>
+                        <tr><th>الحالة الصحية</th><td><%= personalData.health_status || 'لائق' %></td></tr>
+                        <tr><th>تاريخ التجنيد</th><td><%= personalData.join_date || '-' %></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header"><div class="section-header-title"><i class="fas fa-sticky-note"></i><span>ملاحظات السجل</span></div></div>
+            <div style="padding: 10px 12px; font-size: 11px;"><%= personalData.notes || 'لا توجد ملاحظات إضافية.' %></div>
+        </section>
+
+        <section class="signatures-grid">
+            <div class="signature-box"><div class="sig-role">مسؤول السجلات والبيانات</div><div>الاسم: .....................</div><div style="margin-top: 8px;">التوقيع: ..................</div></div>
+            <div class="signature-box"><div class="sig-role">مدير إدارة الموارد البشرية</div><div>الاسم: .....................</div><div style="margin-top: 8px;">التوقيع: ..................</div></div>
+            <div class="signature-box"><div class="sig-role">اعتماد قائد الوحدة</div><div>الختم الرسمي</div><div style="margin-top: 12px;">(ختم الجهة)</div></div>
+        </section>
+
+        <footer class="report-footer">
+            <div>تم استخراج هذه الوثيقة من النظام الإلكتروني بتاريخ <%= new Date().toISOString().slice(0, 16).replace('T', ' ') %></div>
+            <div style="font-weight: 700;"><%= appName %> - صفحة 1 من 1</div>
+        </footer>
+    </div>
+</body>
+</html>

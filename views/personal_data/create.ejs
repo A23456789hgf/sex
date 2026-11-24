@@ -1,0 +1,119 @@
+<%- include('../layouts/header', { title: 'إضافة بيانات شخصية', pageTitle: 'السجلات الأساسية' }) %>
+
+<div class="space-y-6 max-w-6xl mx-auto" dir="rtl">
+    <nav class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-2 print:hidden">
+        <a href="/dashboard" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">الرئيسية</a>
+        <span>/</span>
+        <a href="/system/personal-data" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors">إدارة البيانات الشخصية</a>
+        <span>/</span>
+        <span class="text-slate-900 dark:text-white font-semibold">إضافة سجل جديد</span>
+    </nav>
+
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 print:hidden">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-brand-50 dark:bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold shadow-sm shrink-0">
+                <i class="fas fa-user-plus text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-display font-bold text-2xl text-slate-900 dark:text-white m-0">إضافة سجل شخصي جديد</h1>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">يرجى إدخال البيانات الشخصية والمهنية وتحديث السجلات بدقة.</p>
+            </div>
+        </div>
+        <a href="/system/personal-data" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl hover:bg-slate-50 transition-colors shadow-sm">
+            <i class="fas fa-arrow-right"></i>
+            <span>عودة للقائمة</span>
+        </a>
+    </div>
+
+    <form action="/system/personal-data" method="POST" class="space-y-6">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3 bg-slate-50/50 dark:bg-slate-800/30">
+                <div class="w-2 h-5 bg-brand-600 rounded-full"></div>
+                <h2 class="font-display font-bold text-base text-slate-900 dark:text-white m-0">المعلومات المدنية والشخصية</h2>
+            </div>
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الاسم الكامل رباعياً <span class="text-red-500">*</span></label>
+                    <input type="text" name="name" required class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500" placeholder="كما هو مدون في بطاقة الهوية">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الرقم القومي (الهوية)</label>
+                    <input type="text" name="national_id_number" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الاسم الجهادي</label>
+                    <input type="text" name="jihadi_name" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الرقم العسكري</label>
+                    <input type="text" name="military_number" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">تاريخ الميلاد</label>
+                    <input type="date" name="date_of_birth_gregorian" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">رقم الهاتف</label>
+                    <input type="text" name="phone_1" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-slate-900 dark:text-white outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">فصيلة الدم</label>
+                    <select name="blood_type_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر الفصيلة...</option>
+                        <% for (const item of lookups.bloodTypes) { %><option value="<%= item.id %>"><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الحالة الاجتماعية</label>
+                    <select name="marital_status_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر الحالة...</option>
+                        <% for (const item of lookups.maritalStatuses) { %><option value="<%= item.id %>"><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">المؤهل الدراسي</label>
+                    <select name="qualification_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر المؤهل...</option>
+                        <% for (const item of lookups.qualifications) { %><option value="<%= item.id %>"><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الرتبة العسكرية</label>
+                    <select name="rank_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر الرتبة...</option>
+                        <% for (const item of lookups.ranks) { %><option value="<%= item.id %>"><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">الجهة التابع لها</label>
+                    <select name="internal_entity_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر الجهة...</option>
+                        <% for (const item of lookups.internalEntities) { %><option value="<%= item.id %>"><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">المحافظة</label>
+                    <select name="governorate_id" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white">
+                        <option value="">اختر المحافظة...</option>
+                        <% for (const item of lookups.governorates) { %><option value="<%= item.id %>"><%= item.name %></option><% } %>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">عنوان السكن / تفاصيل إضافية</label>
+                    <input type="text" name="current_address" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-1.5">ملاحظات</label>
+                    <textarea name="notes" rows="3" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white outline-none"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3">
+            <a href="/system/personal-data" class="px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50">إلغاء</a>
+            <button type="submit" class="px-8 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-sm cursor-pointer"><i class="fas fa-save ml-1"></i> حفظ السجل</button>
+        </div>
+    </form>
+</div>
+
+<%- include('../layouts/footer') %>
